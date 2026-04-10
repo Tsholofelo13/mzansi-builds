@@ -35,41 +35,83 @@ public class Project {
     private User owner;
 
     // Getters and Setters
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
-    
-    public void setId(Long id) { this.id = id; }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getTitle() {
+        return title;
+    }
 
-    public ProjectStage getStage() { return stage; }
-    public void setStage(ProjectStage stage) { this.stage = stage; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getSupportNeeded() { return supportNeeded; }
-    public void setSupportNeeded(String supportNeeded) { this.supportNeeded = supportNeeded; }
+    public String getDescription() {
+        return description;
+    }
 
-    public String getGithubRepoUrl() { return githubRepoUrl; }
-    public void setGithubRepoUrl(String githubRepoUrl) { this.githubRepoUrl = githubRepoUrl; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public boolean isCompleted() { return isCompleted; }
-    public void setCompleted(boolean completed) { isCompleted = completed; }
+    public ProjectStage getStage() {
+        return stage;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setStage(ProjectStage stage) {
+        this.stage = stage;
+    }
 
-    public LocalDateTime getCompletedAt() { return completedAt; }
-    public void setCompletedAt(LocalDateTime completedAt) { this.completedAt = completedAt; }
+    public String getSupportNeeded() {
+        return supportNeeded;
+    }
 
-    public User getOwner() { return owner; }
-    public void setOwner(User owner) { this.owner = owner; }
-}
+    public void setSupportNeeded(String supportNeeded) {
+        this.supportNeeded = supportNeeded;
+    }
 
-enum ProjectStage {
-    IDEA, IN_PROGRESS, REVIEW, COMPLETED
+    public String getGithubRepoUrl() {
+        return githubRepoUrl;
+    }
+
+    public void setGithubRepoUrl(String githubRepoUrl) {
+        this.githubRepoUrl = githubRepoUrl;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

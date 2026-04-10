@@ -51,13 +51,39 @@ public class AuthController
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequest request) {
+        String normalizedEmail = request.getEmail().trim().toLowerCase();
+
+        User user = userRepository.findByEmailIgnoreCase(normalizedEmail).orElse(null);
+
+        if (user == null) {
+            Map<String, Object> error = new LinkedHashMap<>();
+            error.put("error", "Invalid email or password");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            Map<String, Object> error = new LinkedHashMap<>();
+            error.put("error", "Invalid email or password");
+            return ResponseEntity.badRequest().body(error);
+        }
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Login successful!");
+        response.put("email", user.getEmail());
+        response.put("fullName", user.getFullName());
+
+        return ResponseEntity.ok(response);
+    }
+
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(
-        org.springframework.web.bind.MethodArgumentNotValidException exception
+            org.springframework.web.bind.MethodArgumentNotValidException exception
     ) {
         Map<String, String> errors = new LinkedHashMap<>();
         exception.getBindingResult().getFieldErrors()
-            .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
     }
 
