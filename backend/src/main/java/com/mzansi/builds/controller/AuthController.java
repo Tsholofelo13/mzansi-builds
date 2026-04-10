@@ -1,5 +1,6 @@
 package com.mzansi.builds.controller;
 
+import com.mzansi.builds.dto.LoginRequest;
 import com.mzansi.builds.dto.RegisterRequest;
 import com.mzansi.builds.entity.User;
 import com.mzansi.builds.repository.UserRepository;
