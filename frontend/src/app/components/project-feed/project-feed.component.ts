@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectService, Project } from '../../services/project.service';
 import { AuthService } from '../../services/auth.service';
@@ -18,10 +18,12 @@ export class ProjectFeedComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     this.authService.currentUser$.subscribe(user => {
       this.isLoggedIn = !!user;
+      this.cdr.detectChanges();
     });
   }
 
@@ -31,15 +33,21 @@ export class ProjectFeedComponent implements OnInit {
 
   loadProjects(): void {
     this.loading = true;
+    this.cdr.detectChanges();
+    
     this.projectService.getAllProjects().subscribe({
       next: (data: Project[]) => {
-        this.projects = data;
+        console.log('Projects received:', data);
+        this.projects = [...data]; // Create new array reference
         this.loading = false;
+        this.cdr.detectChanges(); // Force template update
+        console.log('Projects count after update:', this.projects.length);
       },
       error: (err) => {
-        console.error('Error loading projects:', err);
-        this.errorMessage = 'Failed to load projects. Make sure backend is running.';
+        console.error('Error:', err);
+        this.errorMessage = 'Failed to load projects';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -62,16 +70,6 @@ export class ProjectFeedComponent implements OnInit {
     }
   }
 
-  getStageIcon(stage: string): string {
-    switch(stage) {
-      case 'IDEA': return '[idea]';
-      case 'IN_PROGRESS': return '[gear]';
-      case 'REVIEW': return '[search]';
-      case 'COMPLETED': return '[check]';
-      default: return '[box]';
-    }
-  }
-
   updateStage(projectId: number, event: any): void {
     const newStage = event.target.value;
     if (!newStage) return;
@@ -82,7 +80,7 @@ export class ProjectFeedComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error updating stage:', err);
-        alert('Failed to update stage. Make sure you are logged in as the project owner.');
+        alert('Failed to update stage');
       }
     });
   }

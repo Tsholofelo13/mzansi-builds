@@ -21,37 +21,23 @@
   
   <h2>Live Feed - What developers are building</h2>
   
-  <div *ngIf="loading" class="loading">Loading projects...</div>
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading projects...</p>
+  </div>
   
-  <div class="projects-grid">
+  <div *ngIf="!loading && projects.length === 0" class="empty">
+    <p>No projects found. Create your first project!</p>
+  </div>
+  
+  <div class="projects-grid" *ngIf="!loading && projects.length > 0">
     <div *ngFor="let project of projects" class="project-card">
-      <div class="project-header">
-        <h3>{{ project.title }}</h3>
-        <span class="stage-badge" [ngClass]="getStageClass(project.stage)">
-          {{ project.stage }}
-        </span>
-      </div>
-      
-      <p class="description">{{ project.description }}</p>
-      
-      <div class="project-meta">
-        <p><strong>By:</strong> {{ project.owner.fullName }}</p>
-        <p *ngIf="project.supportNeeded"><strong>Support:</strong> {{ project.supportNeeded }}</p>
-        <p *ngIf="project.githubRepoUrl"><strong>GitHub:</strong> <a [href]="project.githubRepoUrl" target="_blank">View Repository</a></p>
-        <p><strong>Created:</strong> {{ project.createdAt | date:'mediumDate' }}</p>
-      </div>
-      
-      <div *ngIf="isLoggedIn && project.stage !== 'COMPLETED'" class="update-stage">
-        <label>Update progress:</label>
-        <select (change)="updateStage(project.id, $event)">
-          <option value="">Select</option>
-          <option value="IDEA">Idea</option>
-          <option value="IN_PROGRESS">In Progress</option>
-          <option value="REVIEW">Review</option>
-          <option value="COMPLETED">Completed</option>
-        </select>
-      </div>
+      <h3>{{ project.title }}</h3>
+      <p>{{ project.description }}</p>
+      <p><strong>By:</strong> {{ project.owner.fullName }}</p>
+      <p><strong>Stage:</strong> {{ project.stage }}</p>
+      <p *ngIf="project.supportNeeded"><strong>Support:</strong> {{ project.supportNeeded }}</p>
+      <p *ngIf="project.githubRepoUrl"><strong>GitHub:</strong> <a [href]="project.githubRepoUrl" target="_blank">View Repository</a></p>
     </div>
   </div>
 </div>
