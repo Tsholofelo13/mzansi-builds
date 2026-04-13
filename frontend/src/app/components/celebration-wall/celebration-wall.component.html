@@ -1,18 +1,24 @@
 <div class="container">
-  <h1>í¾‰ Celebration Wall í¾‰</h1>
-  <p>Celebrating developers who completed their projects!</p>
+  <h1>Celebration Wall</h1>
+  <p>Celebrating developers who completed their projects</p>
   
-  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
   
   <div *ngIf="!loading && completedProjects.length === 0" class="empty">
-    <p>No completed projects yet. Be the first to complete a project!</p>
+    <h3>No completed projects yet</h3>
+    <p>Be the first developer to complete a project</p>
   </div>
   
   <div class="celebration-grid">
     <div *ngFor="let project of completedProjects" class="celebration-card">
-      <div class="trophy">í¿†</div>
       <h3>{{ project.title }}</h3>
       <p>by {{ project.owner.fullName }}</p>
+      <div class="completion-badge">
+        <span>Completed</span>
+      </div>
     </div>
   </div>
 </div>

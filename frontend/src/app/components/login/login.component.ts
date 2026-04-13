@@ -17,18 +17,32 @@ export class LoginComponent {
     password: ''
   };
   errorMessage = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     this.errorMessage = '';
+    this.loading = true;
+    
+    console.log('Login attempted with:', this.formData);
     
     this.authService.login(this.formData).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Login successful:', response);
+        this.loading = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.error || 'Login failed. Please check your credentials.';
+        console.error('Login error:', err);
+        this.loading = false;
+        if (err.status === 400) {
+          this.errorMessage = 'Invalid email or password. Please try again.';
+        } else if (err.status === 404) {
+          this.errorMessage = 'Server not reachable. Make sure backend is running on port 8080.';
+        } else {
+          this.errorMessage = err.error?.error || 'Login failed. Please try again.';
+        }
       }
     });
   }

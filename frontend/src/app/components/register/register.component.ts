@@ -20,22 +20,36 @@ export class RegisterComponent {
   };
   errorMessage = '';
   successMessage = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
+    this.loading = true;
+    
+    console.log('Register attempted with:', this.formData);
     
     this.authService.register(this.formData).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Register successful:', response);
+        this.loading = false;
         this.successMessage = 'Registration successful! Redirecting to login...';
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000);
       },
       error: (err) => {
-        this.errorMessage = err.error?.error || 'Registration failed. Please try again.';
+        console.error('Register error:', err);
+        this.loading = false;
+        if (err.status === 400) {
+          this.errorMessage = err.error?.error || 'Email already registered or invalid data.';
+        } else if (err.status === 404) {
+          this.errorMessage = 'Server not reachable. Make sure backend is running on port 8080.';
+        } else {
+          this.errorMessage = 'Registration failed. Please try again.';
+        }
       }
     });
   }

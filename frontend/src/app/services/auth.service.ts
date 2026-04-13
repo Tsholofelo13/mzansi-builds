@@ -24,20 +24,25 @@ export class AuthService {
     }
   }
 
-  register(request: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, request);
+  register(userData: any): Observable<any> {
+    console.log('Sending register request:', userData);
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  login(request: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, request).pipe(
+  login(credentials: any): Observable<any> {
+    console.log('Sending login request:', credentials);
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        const user: User = {
-          email: response.email,
-          fullName: response.fullName
-        };
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        localStorage.setItem('userEmail', response.email);
-        this.currentUserSubject.next(user);
+        console.log('Login response:', response);
+        if (response && response.email) {
+          const user: User = {
+            email: response.email,
+            fullName: response.fullName
+          };
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('userEmail', response.email);
+          this.currentUserSubject.next(user);
+        }
       })
     );
   }
@@ -50,5 +55,9 @@ export class AuthService {
 
   getUserEmail(): string | null {
     return localStorage.getItem('userEmail');
+  }
+
+  isLoggedIn(): boolean {
+    return this.currentUserSubject.value !== null;
   }
 }

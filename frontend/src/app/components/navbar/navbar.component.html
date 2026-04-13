@@ -1,14 +1,16 @@
 <div class="navbar">
   <div class="nav-brand">
-    <h1>íº€ MzansiBuilds</h1>
+    <h1>MzansiBuilds</h1>
     <p>Build in public with the developer community</p>
   </div>
   <div class="nav-links">
-    <a routerLink="/" routerLinkActive="active">Feed</a>
-    <a routerLink="/create-project" routerLinkActive="active">Create Project</a>
-    <a routerLink="/celebration-wall" routerLinkActive="active">Celebration Wall</a>
+    <a *ngIf="isLoggedIn" routerLink="/" routerLinkActive="active">Feed</a>
+    <a *ngIf="isLoggedIn" routerLink="/create-project" routerLinkActive="active">Create Project</a>
+    <a *ngIf="isLoggedIn" routerLink="/celebration-wall" routerLinkActive="active">Celebration Wall</a>
+    
     <span *ngIf="isLoggedIn" class="user-email">{{ userEmail }}</span>
     <button *ngIf="isLoggedIn" (click)="logout()" class="btn-logout">Logout</button>
+    
     <a *ngIf="!isLoggedIn" routerLink="/login" class="btn-login">Login</a>
     <a *ngIf="!isLoggedIn" routerLink="/register" class="btn-register">Register</a>
   </div>
