@@ -1,1 +1,35 @@
-<p>project-feed works!</p>
+<div class="container">
+  <h2>Live Feed - What developers are building</h2>
+  
+  <div *ngIf="loading" class="loading">Loading projects...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  
+  <div class="projects-grid">
+    <div *ngFor="let project of projects" class="project-card">
+      <div class="project-header">
+        <h3>{{ project.title }}</h3>
+        <span class="stage {{ getStageColor(project.stage) }}">{{ project.stage }}</span>
+      </div>
+      
+      <p class="description">{{ project.description }}</p>
+      
+      <div class="project-details">
+        <p><strong>By:</strong> {{ project.owner.fullName }} ({{ project.owner.email }})</p>
+        <p *ngIf="project.supportNeeded"><strong>Support needed:</strong> {{ project.supportNeeded }}</p>
+        <p *ngIf="project.githubRepoUrl"><strong>GitHub:</strong> <a [href]="project.githubRepoUrl" target="_blank">View Repository</a></p>
+        <p><strong>Created:</strong> {{ project.createdAt | date:'medium' }}</p>
+      </div>
+      
+      <div *ngIf="project.stage !== 'COMPLETED'" class="update-stage">
+        <label>Update stage:</label>
+        <select (change)="updateStage(project.id, $event)">
+          <option value="">Select</option>
+          <option value="IDEA">Idea</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="REVIEW">Review</option>
+          <option value="COMPLETED">Completed</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

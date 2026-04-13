@@ -1,0 +1,86 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #1A1A1A;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background-color: #FFFFFF;
+  border: 1px solid #1A1A1A;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.project-header h3 {
+  margin: 0;
+  color: #1A1A1A;
+}
+
+.stage {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.stage.idea { background-color: #e3f2fd; color: #1565c0; }
+.stage.in-progress { background-color: #e8f5e9; color: #2E7D32; }
+.stage.review { background-color: #fff3e0; color: #e65100; }
+.stage.completed { background-color: #e8f5e9; color: #2E7D32; }
+
+.description {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.project-details {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.project-details p {
+  margin: 5px 0;
+}
+
+.update-stage {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.update-stage label {
+  margin-right: 10px;
+}
+
+.update-stage select {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+}
+
+.error {
+  color: #c62828;
+}

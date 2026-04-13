@@ -1,0 +1,54 @@
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #1A1A1A;
+  border-radius: 8px;
+  padding: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.error {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.success {
+  background-color: #e8f5e9;
+  color: #2E7D32;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}

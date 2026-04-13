@@ -3,24 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-export interface User 
-{
-  id?: number;
+export interface User {
   email: string;
-  fullName: string;
-  githubUsername?: string;
-}
-
-export interface LoginRequest 
-{
-  email: string;
-  password: string;
-}
-
-export interface RegisterRequest 
-{
-  email: string;
-  password: string;
   fullName: string;
   githubUsername?: string;
 }
@@ -28,29 +12,23 @@ export interface RegisterRequest
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService 
-{
+export class AuthService {
   private apiUrl = 'http://localhost:8080/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) 
-  {
-    // Check localStorage for existing user on startup
+  constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) 
-      {
+    if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
-      }
+    }
   }
 
-  register(request: RegisterRequest): Observable<any> 
-  {
+  register(request: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, request);
   }
 
-  login(request: LoginRequest): Observable<any> 
-  {
+  login(request: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, request).pipe(
       tap(response => {
         const user: User = {
@@ -64,15 +42,10 @@ export class AuthService
     );
   }
 
-  logout(): void 
-  {
+  logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('userEmail');
     this.currentUserSubject.next(null);
-  }
-
-  isLoggedIn(): boolean {
-    return this.currentUserSubject.value !== null;
   }
 
   getUserEmail(): string | null {

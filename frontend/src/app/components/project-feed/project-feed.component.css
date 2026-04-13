@@ -1,0 +1,23 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+.project-card {
+  background-color: #FFFFFF;
+  border: 1px solid #1A1A1A;
+  border-radius: 8px;
+  padding: 20px;
+}
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+}
+.error {
+  color: #c62828;
+}

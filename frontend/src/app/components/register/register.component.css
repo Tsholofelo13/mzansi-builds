@@ -3,29 +3,23 @@
   margin: 50px auto;
   padding: 20px;
 }
-
 .card {
   background-color: #FFFFFF;
   border: 1px solid #1A1A1A;
   border-radius: 8px;
   padding: 30px;
 }
-
 h2 {
   margin-bottom: 20px;
-  color: #1A1A1A;
 }
-
 .form-group {
   margin-bottom: 15px;
 }
-
 label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
-
 input {
   width: 100%;
   padding: 10px;
@@ -33,7 +27,6 @@ input {
   border-radius: 5px;
   font-size: 16px;
 }
-
 .error {
   background-color: #ffebee;
   color: #c62828;
@@ -41,7 +34,6 @@ input {
   border-radius: 5px;
   margin-bottom: 15px;
 }
-
 .success {
   background-color: #e8f5e9;
   color: #2E7D32;
@@ -49,13 +41,24 @@ input {
   border-radius: 5px;
   margin-bottom: 15px;
 }
-
 .link {
   margin-top: 20px;
   text-align: center;
 }
-
 .link a {
   color: #2E7D32;
   text-decoration: none;
+}
+.btn-primary {
+  background-color: #2E7D32;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+.btn-primary:hover {
+  background-color: #1B5E20;
 }

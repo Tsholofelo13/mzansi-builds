@@ -11,19 +11,10 @@ export interface Project {
   githubRepoUrl?: string;
   completed: boolean;
   createdAt: string;
-  completedAt?: string;
   owner: {
     email: string;
     fullName: string;
   };
-}
-
-export interface CreateProjectRequest {
-  title: string;
-  description: string;
-  stage: string;
-  supportNeeded?: string;
-  githubRepoUrl?: string;
 }
 
 @Injectable({
@@ -46,30 +37,9 @@ export class ProjectService {
     return this.http.get<Project[]>(this.apiUrl);
   }
 
-  getMyProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(`${this.apiUrl}/my-projects`, {
+  createProject(project: any): Observable<any> {
+    return this.http.post(this.apiUrl, project, {
       headers: this.getHeaders()
     });
-  }
-
-  createProject(project: CreateProjectRequest): Observable<any> 
-  {
-    return this.http.post(this.apiUrl, project, 
-      {
-      headers: this.getHeaders()
-    });
-  }
-
-  updateProjectStage(id: number, stage: string): Observable<any> 
-  {
-    return this.http.put(`${this.apiUrl}/${id}?stage=${stage}`, null,
-       {
-      headers: this.getHeaders()
-    });
-  }
-
-  getCompletedProjects(): Observable<Project[]> 
-  {
-    return this.http.get<Project[]>(`${this.apiUrl}/completed`);
   }
 }

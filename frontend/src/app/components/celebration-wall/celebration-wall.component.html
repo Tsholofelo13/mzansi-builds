@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>ğŸ‰ Celebration Wall ğŸ‰</h1>
+  <h1>í¾‰ Celebration Wall í¾‰</h1>
   <p>Celebrating developers who completed their projects!</p>
   
   <div *ngIf="loading" class="loading">Loading...</div>
@@ -10,10 +10,9 @@
   
   <div class="celebration-grid">
     <div *ngFor="let project of completedProjects" class="celebration-card">
-      <div class="trophy">ğŸ†</div>
+      <div class="trophy">í¿†</div>
       <h3>{{ project.title }}</h3>
       <p>by {{ project.owner.fullName }}</p>
-      <p class="completed-date">Completed: {{ project.completedAt | date:'mediumDate' }}</p>
     </div>
   </div>
 </div>
