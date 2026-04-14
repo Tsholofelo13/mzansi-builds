@@ -29,24 +29,33 @@ export class RegisterComponent {
     this.successMessage = '';
     this.loading = true;
     
-    console.log('Register attempted with:', this.formData);
+    // Basic validation
+    if (!this.formData.email || !this.formData.password || !this.formData.fullName) {
+      this.errorMessage = 'Please fill in all required fields';
+      this.loading = false;
+      return;
+    }
+    
+    if (this.formData.password.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters';
+      this.loading = false;
+      return;
+    }
     
     this.authService.register(this.formData).subscribe({
       next: (response) => {
-        console.log('Register successful:', response);
-        this.loading = false;
         this.successMessage = 'Registration successful! Redirecting to login...';
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000);
       },
       error: (err) => {
-        console.error('Register error:', err);
         this.loading = false;
-        if (err.status === 400) {
-          this.errorMessage = err.error?.error || 'Email already registered or invalid data.';
-        } else if (err.status === 404) {
-          this.errorMessage = 'Server not reachable. Make sure backend is running on port 8080.';
+        
+        if (err.status === 0) {
+          this.errorMessage = 'Cannot connect to server. Make sure the backend is running on port 8080.';
+        } else if (err.status === 400) {
+          this.errorMessage = err.error?.error || 'Email already registered or invalid data. Please try a different email.';
         } else {
           this.errorMessage = 'Registration failed. Please try again.';
         }

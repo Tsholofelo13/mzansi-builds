@@ -1,0 +1,52 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar">{{ user?.fullName?.charAt(0) || '?' }}</div>
+      <h2>{{ user?.fullName || 'User' }}</h2>
+      <p class="email">{{ user?.email || 'No email' }}</p>
+      <p class="github">GitHub: {{ user?.githubUsername || 'Not provided' }}</p>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">{{ projects.length }}</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ activeProjects }}</div>
+        <div class="stat-label">Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ completedProjects }}</div>
+        <div class="stat-label">Completed</div>
+      </div>
+    </div>
+    
+    <div class="projects-section">
+      <h3>My Projects</h3>
+      
+      <!-- Debug: Show raw data -->
+      <div style="display: none;">Projects count: {{ projects.length }}</div>
+      
+      <div *ngIf="loadingProjects" class="loading-projects">
+        Loading projects...
+      </div>
+      
+      <div *ngIf="!loadingProjects && projects.length === 0" class="empty-projects">
+        <p>No projects yet. Create your first project!</p>
+        <button routerLink="/create-project" class="btn-primary">Create Project</button>
+      </div>
+      
+      <div *ngFor="let project of projects" class="project-item">
+        <div class="project-header">
+          <h4>{{ project.title }}</h4>
+          <span class="stage-badge" [ngClass]="'stage-' + project.stage.toLowerCase()">
+            {{ project.stage }}
+          </span>
+        </div>
+        <p>{{ project.description }}</p>
+        <p *ngIf="project.supportNeeded" class="support-text">Support: {{ project.supportNeeded }}</p>
+      </div>
+    </div>
+  </div>
+</div>

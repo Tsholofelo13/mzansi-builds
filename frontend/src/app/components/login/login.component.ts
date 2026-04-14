@@ -23,25 +23,44 @@ export class LoginComponent {
 
   onSubmit(): void {
     this.errorMessage = '';
+
+    if (!this.formData.email || !this.formData.password) {
+      this.errorMessage = 'Please enter both email and password';
+      return;
+    }
+
+    if (!this.formData.email.includes('@')) {
+      this.errorMessage = 'Please enter a valid email address';
+      return;
+    }
+
     this.loading = true;
-    
-    console.log('Login attempted with:', this.formData);
-    
+
+    const timeoutId = setTimeout(() => {
+      if (this.loading) {
+        this.loading = false;
+        this.errorMessage = 'Server taking too long. Please check if backend is running.';
+      }
+    }, 5000);
+
     this.authService.login(this.formData).subscribe({
       next: (response) => {
-        console.log('Login successful:', response);
+        clearTimeout(timeoutId);
         this.loading = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Login error:', err);
+        clearTimeout(timeoutId);
         this.loading = false;
-        if (err.status === 400) {
+
+        if (err.status === 0) {
+          this.errorMessage = 'Backend not running. Please start the server on port 8080.';
+        } else if (err.status === 400) {
           this.errorMessage = 'Invalid email or password. Please try again.';
-        } else if (err.status === 404) {
-          this.errorMessage = 'Server not reachable. Make sure backend is running on port 8080.';
+        } else if (err.status === 401) {
+          this.errorMessage = 'Invalid email or password. Please try again.';
         } else {
-          this.errorMessage = err.error?.error || 'Login failed. Please try again.';
+          this.errorMessage = 'Invalid email or password.';
         }
       }
     });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject, throwError, TimeoutError } from 'rxjs';
+import { tap, timeout, catchError } from 'rxjs/operators';
 
 export interface User {
   email: string;
@@ -25,15 +25,16 @@ export class AuthService {
   }
 
   register(userData: any): Observable<any> {
-    console.log('Sending register request:', userData);
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+      timeout(10000),
+      catchError(this.handleError)
+    );
   }
 
   login(credentials: any): Observable<any> {
-    console.log('Sending login request:', credentials);
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      timeout(5000),
       tap(response => {
-        console.log('Login response:', response);
         if (response && response.email) {
           const user: User = {
             email: response.email,
@@ -43,7 +44,8 @@ export class AuthService {
           localStorage.setItem('userEmail', response.email);
           this.currentUserSubject.next(user);
         }
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
@@ -59,5 +61,25 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return this.currentUserSubject.value !== null;
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('API Error:', error);
+    
+    if (error instanceof TimeoutError) {
+      return throwError(() => ({ 
+        status: 408, 
+        message: 'Server taking too long to respond. Please check if backend is running.' 
+      }));
+    }
+    
+    if (error.status === 0) {
+      return throwError(() => ({ 
+        status: 0, 
+        message: 'Cannot connect to server. Make sure backend is running on port 8080.' 
+      }));
+    }
+    
+    return throwError(() => error);
   }
 }

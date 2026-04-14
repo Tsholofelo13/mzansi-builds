@@ -7,17 +7,22 @@
     <p>Loading achievements...</p>
   </div>
   
-  <div *ngIf="!loading && completedProjects.length === 0" class="empty">
-    <div class="empty-icon">[ ]</div>
-    <h3>No completed projects yet</h3>
-    <p>Mark a project as "Completed" to see it here</p>
+  <div *ngIf="errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadCompletedProjects()" class="btn-retry">Try Again</button>
   </div>
   
-  <div class="celebration-grid" *ngIf="!loading && completedProjects.length > 0">
+  <div *ngIf="!loading && !errorMessage && completedProjects.length === 0" class="empty">
+    <h3>No completed projects yet</h3>
+    <p>Mark a project as "Completed" to see it celebrated here</p>
+    <button routerLink="/create-project" class="btn-primary">Create a Project</button>
+  </div>
+  
+  <div class="celebration-grid" *ngIf="!loading && !errorMessage && completedProjects.length > 0">
     <div *ngFor="let project of completedProjects" class="celebration-card">
-      <div class="trophy">[Trophy]</div>
+      <div class="trophy-text">[Trophy]</div>
       <h3>{{ project.title }}</h3>
-      <p>by {{ project.owner.fullName }}</p>
+      <p>by {{ project.owner?.fullName || 'Unknown' }}</p>
       <div class="completion-badge">
         <span>Completed</span>
       </div>

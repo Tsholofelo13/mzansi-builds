@@ -25,26 +25,33 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const email = localStorage.getItem('userEmail');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'email': email || ''
+    });
+  }
+
   getAllProjects(): Observable<Project[]> {
-    console.log('Fetching all projects...');
     return this.http.get<Project[]>(this.apiUrl);
   }
 
   createProject(project: any): Observable<any> {
-    const email = localStorage.getItem('userEmail');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'email': email || ''
+    return this.http.post(this.apiUrl, project, {
+      headers: this.getHeaders()
     });
-    return this.http.post(this.apiUrl, project, { headers });
   }
 
   updateProjectStage(id: number, stage: string): Observable<any> {
-    const email = localStorage.getItem('userEmail');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'email': email || ''
+    return this.http.put(`${this.apiUrl}/${id}?stage=${stage}`, null, {
+      headers: this.getHeaders()
     });
-    return this.http.put(`${this.apiUrl}/${id}?stage=${stage}`, null, { headers });
+  }
+
+  deleteProject(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
   }
 }

@@ -1,45 +1,100 @@
 <div class="container">
+  <!-- Hero Section -->
   <div class="hero-section">
     <h1>Welcome to MzansiBuilds</h1>
     <p>Where South African developers build in public and grow together</p>
   </div>
   
-  <div class="stats-section" *ngIf="projects.length > 0">
+  <!-- Stats Dashboard -->
+  <div class="stats-dashboard">
     <div class="stat-card">
-      <span class="stat-number">{{ projects.length }}</span>
-      <span class="stat-label">Total Projects</span>
+      <div class="stat-number">{{ projects.length }}</div>
+      <div class="stat-label">Total Projects</div>
     </div>
     <div class="stat-card">
-      <span class="stat-number">{{ getActiveProjectsCount() }}</span>
-      <span class="stat-label">Active Projects</span>
+      <div class="stat-number">{{ getActiveProjectsCount() }}</div>
+      <div class="stat-label">Active</div>
     </div>
     <div class="stat-card">
-      <span class="stat-number">{{ getCompletedProjectsCount() }}</span>
-      <span class="stat-label">Completed</span>
+      <div class="stat-number">{{ getCompletedProjectsCount() }}</div>
+      <div class="stat-label">Completed</div>
     </div>
   </div>
   
-  <h2>Live Feed - What developers are building</h2>
+  <!-- Feed Header -->
+  <div class="feed-header">
+    <h2>Live Feed</h2>
+    <p>What developers are building right now</p>
+  </div>
   
-  <div *ngIf="loading" class="loading">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
     <div class="spinner"></div>
-    <p>Loading projects...</p>
+    <p>Loading amazing projects...</p>
   </div>
   
-  <div *ngIf="!loading && projects.length === 0" class="empty">
-    <p>No projects found. Create your first project!</p>
+  <!-- Empty State -->
+  <div *ngIf="!loading && projects.length === 0" class="empty-state">
+    <h3>No projects yet</h3>
+    <p>Be the first to share what you're building!</p>
+    <button routerLink="/create-project" class="btn-primary">Create First Project</button>
   </div>
   
+  <!-- Projects Grid -->
   <div class="projects-grid" *ngIf="!loading && projects.length > 0">
     <div *ngFor="let project of projects" class="project-card">
-      <h3>{{ project.title }}</h3>
-      <p>{{ project.description }}</p>
-      <p><strong>By:</strong> {{ project.owner.fullName }}</p>
-      <p><strong>Stage:</strong> {{ project.stage }}</p>
-      <p *ngIf="project.supportNeeded"><strong>Support:</strong> {{ project.supportNeeded }}</p>
-      <p *ngIf="project.githubRepoUrl"><strong>GitHub:</strong> <a [href]="project.githubRepoUrl" target="_blank">View Repository</a></p>
+      <!-- Card Header -->
+      <div class="card-header">
+        <div class="project-avatar">
+          <span>{{ project.owner.fullName.charAt(0) || '?' }}</span>
+        </div>
+        <div class="project-title">
+          <h3>{{ project.title }}</h3>
+          <p>by {{ project.owner.fullName }}</p>
+        </div>
+        <div class="stage-badge" [ngClass]="getStageClass(project.stage)">
+          {{ project.stage }}
+        </div>
+      </div>
       
-      <!-- Comments Component -->
+      <!-- Description -->
+      <p class="project-description">{{ project.description }}</p>
+      
+      <!-- Tags -->
+      <div class="project-tags">
+        <span *ngIf="project.supportNeeded" class="tag tag-support">
+          {{ project.supportNeeded }}
+        </span>
+        <span *ngIf="project.githubRepoUrl" class="tag tag-github">
+          GitHub
+        </span>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="progress-section" *ngIf="project.stage !== 'COMPLETED'">
+        <div class="progress-label">
+          <span>Progress</span>
+          <span>{{ getProgressPercent(project.stage) }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width]="getProgressPercent(project.stage) + '%'"></div>
+        </div>
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="card-actions">
+        <a *ngIf="project.githubRepoUrl" [href]="project.githubRepoUrl" target="_blank" class="btn-github">
+          View on GitHub
+        </a>
+        <button *ngIf="isLoggedIn && project.stage !== 'COMPLETED'" (click)="openStageMenu(project)" class="btn-update">
+          Update Progress
+        </button>
+        <button *ngIf="isLoggedIn && project.owner.email === userEmail" (click)="deleteProject(project.id)" class="btn-delete">
+          Delete
+        </button>
+      </div>
+      
+      <!-- Comments Section -->
       <app-comments [projectId]="project.id"></app-comments>
     </div>
   </div>
