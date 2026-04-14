@@ -4,16 +4,18 @@
   
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
-    <p>Loading...</p>
+    <p>Loading achievements...</p>
   </div>
   
   <div *ngIf="!loading && completedProjects.length === 0" class="empty">
+    <div class="empty-icon">[ ]</div>
     <h3>No completed projects yet</h3>
-    <p>Be the first developer to complete a project</p>
+    <p>Mark a project as "Completed" to see it here</p>
   </div>
   
-  <div class="celebration-grid">
+  <div class="celebration-grid" *ngIf="!loading && completedProjects.length > 0">
     <div *ngFor="let project of completedProjects" class="celebration-card">
+      <div class="trophy">[Trophy]</div>
       <h3>{{ project.title }}</h3>
       <p>by {{ project.owner.fullName }}</p>
       <div class="completion-badge">

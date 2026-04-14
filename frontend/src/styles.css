@@ -6,13 +6,6 @@
   --black: #111111;
   --gray-100: #F5F5F5;
   --gray-300: #E0E0E0;
-  --gray-600: #757575;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  --transition-fast: 0.2s ease;
 }
 
 * {
@@ -27,36 +20,56 @@ body {
   color: var(--black);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-lg);
-}
-
-.btn-primary {
+/* Green button style */
+.btn-primary, button[type="submit"] {
   background-color: var(--green-primary);
   color: var(--white);
   border: none;
   padding: 10px 20px;
-  border-radius: var(--radius-md);
+  border-radius: 8px;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, button[type="submit"]:hover {
   background-color: var(--green-dark);
   transform: translateY(-2px);
 }
 
-.card {
+/* Card style */
+.card, .project-card, .settings-card {
   background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-fast);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  border: 1px solid var(--gray-300);
 }
 
-.card:hover {
+.card:hover, .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* No yellow, no orange - only green, white, black */
+.btn-collab, .raise-hand {
+  background-color: var(--green-dark);
+  color: var(--white);
+}
+
+/* Green accent for active states */
+.active {
+  color: var(--green-primary);
+}
+
+/* Stage badges */
+.stage-idea { background: #E3F2FD; color: #1565C0; }
+.stage-progress { background: #E8F5E9; color: var(--green-primary); }
+.stage-review { background: #FFF3E0; color: #E65100; }
+.stage-completed { background: var(--green-primary); color: var(--white); }

@@ -5,7 +5,6 @@ import { ProjectFeedComponent } from './components/project-feed/project-feed.com
 import { ProjectFormComponent } from './components/project-form/project-form.component';
 import { CelebrationWallComponent } from './components/celebration-wall/celebration-wall.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
   { path: '', component: ProjectFeedComponent },
@@ -14,6 +13,5 @@ export const routes: Routes = [
   { path: 'create-project', component: ProjectFormComponent },
   { path: 'celebration-wall', component: CelebrationWallComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'settings', component: SettingsComponent },
   { path: '**', redirectTo: '' }
 ];

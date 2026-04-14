@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectService, Project } from '../../services/project.service';
 import { AuthService } from '../../services/auth.service';
+import { CommentsComponent } from '../comments/comments.component';
 
 @Component({
   selector: 'app-project-feed',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CommentsComponent],
   templateUrl: './project-feed.component.html',
   styleUrls: ['./project-feed.component.css']
 })
@@ -37,14 +38,11 @@ export class ProjectFeedComponent implements OnInit {
     
     this.projectService.getAllProjects().subscribe({
       next: (data: Project[]) => {
-        console.log('Projects received:', data);
-        this.projects = [...data]; // Create new array reference
+        this.projects = [...data];
         this.loading = false;
-        this.cdr.detectChanges(); // Force template update
-        console.log('Projects count after update:', this.projects.length);
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error:', err);
         this.errorMessage = 'Failed to load projects';
         this.loading = false;
         this.cdr.detectChanges();

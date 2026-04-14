@@ -22,7 +22,7 @@ export class CelebrationWallComponent implements OnInit {
   loadCompletedProjects(): void {
     this.projectService.getAllProjects().subscribe({
       next: (data: Project[]) => {
-        this.completedProjects = data.filter((p: Project) => p.completed === true);
+        this.completedProjects = data.filter(p => p.stage === 'COMPLETED');
         this.loading = false;
       },
       error: () => {

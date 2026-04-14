@@ -38,6 +38,9 @@
       <p><strong>Stage:</strong> {{ project.stage }}</p>
       <p *ngIf="project.supportNeeded"><strong>Support:</strong> {{ project.supportNeeded }}</p>
       <p *ngIf="project.githubRepoUrl"><strong>GitHub:</strong> <a [href]="project.githubRepoUrl" target="_blank">View Repository</a></p>
+      
+      <!-- Comments Component -->
+      <app-comments [projectId]="project.id"></app-comments>
     </div>
   </div>
 </div>
